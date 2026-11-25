@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Hiba Beauty</title>
-<meta name="description" content="Hiba — beauty specialist. Facials, brows & lashes, waxing, nails and make-up. Book your appointment.">
+<meta name="description" content="Hiba — beauty specialist in Marrakech, welcoming clients at home. Facials, brows & lashes, waxing, nails and make-up. Book your appointment.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet">
@@ -138,6 +138,9 @@
   .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   form .btn{margin-top:1.6rem;width:100%;cursor:pointer;font-family:var(--sans)}
 
+  .wa-float{position:fixed;inset-inline-end:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--plum);color:var(--cream);box-shadow:0 14px 30px -12px rgba(74,44,51,.6);transition:transform .2s}
+  .wa-float:hover{transform:scale(1.06)}
+  .wa-float:focus-visible{outline:3px solid var(--blush);outline-offset:3px}
   footer{background:var(--sand);padding:50px 0;font-size:.9rem;color:var(--muted)}
   .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
   .social{display:flex;gap:18px}
@@ -266,7 +269,7 @@
         <p style="color:var(--muted)" data-i18n="book.lead"></p>
         <dl>
           <dt data-i18n="book.address"></dt><dd data-i18n="ph.address"></dd>
-          <dt data-i18n="book.phone"></dt><dd class="ltr">[+32 ...]</dd>
+          <dt data-i18n="book.phone"></dt><dd class="ltr">[+212 ...]</dd>
           <dt data-i18n="book.email"></dt><dd data-i18n="ph.email"></dd>
           <dt data-i18n="book.hours"></dt>
           <dd>
@@ -296,7 +299,8 @@
           <strong data-i18n="sent.title"></strong>
           <pre id="sentText"></pre>
           <div class="acts">
-            <button type="button" class="btn" id="copyBtn" data-i18n="sent.copy"></button>
+            <a class="btn" id="waBtn" href="#" target="_blank" rel="noopener" data-i18n="sent.wa"></a>
+            <button type="button" class="btn ghost" id="copyBtn" data-i18n="sent.copy"></button>
             <a class="btn ghost" id="mailBtn" href="#" data-i18n="sent.mail"></a>
           </div>
         </div>
@@ -311,26 +315,32 @@
     <div class="social">
       <a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TikTok</a>
     </div>
-    <span>© <span id="yr"></span> Hiba Beauty · <span data-i18n="ph.vat"></span></span>
+    <span>© <span id="yr"></span> Hiba Beauty</span>
   </div>
 </footer>
+
+<a class="wa-float" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.3-.4.8-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></svg>
+</a>
 
 <script>
 /* ============================================================
    CONTACT EMAIL — replace with Hiba's real address
    ============================================================ */
 const HIBA_EMAIL = 'HIBA_EMAIL_HERE';
+// WhatsApp number, digits only with country code, e.g. 2126XXXXXXXX
+const HIBA_WHATSAPP = '212000000000';
 
 /* ============================================================
    TREATMENTS — edit prices / durations here.
    Names and descriptions live in the translations below (key = id).
    ============================================================ */
 const SERVICES = {
-  face:   [ {id:'face1', price:'€ —', min:60}, {id:'face2', price:'€ —', min:30}, {id:'face3', price:'€ —', min:75} ],
-  brows:  [ {id:'brows1',price:'€ —', min:20}, {id:'brows2',price:'€ —', min:45}, {id:'brows3',price:'€ —', min:50} ],
-  wax:    [ {id:'wax1',  price:'€ —', min:10}, {id:'wax2',  price:'€ —', min:25}, {id:'wax3',  price:'€ —', min:45} ],
-  nails:  [ {id:'nails1',price:'€ —', min:40}, {id:'nails2',price:'€ —', min:50}, {id:'nails3',price:'€ —', min:50} ],
-  makeup: [ {id:'makeup1',price:'€ —',min:60}, {id:'makeup2',price:'€ —', min:null} ]
+  face:   [ {id:'face1', price:'— DH', min:60}, {id:'face2', price:'— DH', min:30}, {id:'face3', price:'— DH', min:75} ],
+  brows:  [ {id:'brows1',price:'— DH', min:20}, {id:'brows2',price:'— DH', min:45}, {id:'brows3',price:'— DH', min:50} ],
+  wax:    [ {id:'wax1',  price:'— DH', min:10}, {id:'wax2',  price:'— DH', min:25}, {id:'wax3',  price:'— DH', min:45} ],
+  nails:  [ {id:'nails1',price:'— DH', min:40}, {id:'nails2',price:'— DH', min:50}, {id:'nails3',price:'— DH', min:50} ],
+  makeup: [ {id:'makeup1',price:'— DH',min:60}, {id:'makeup2',price:'— DH', min:null} ]
 };
 
 /* ============================================================
@@ -339,17 +349,17 @@ const SERVICES = {
 const T = {
 en:{
   'nav.about':'About','nav.services':'Treatments','nav.gallery':'Gallery','nav.contact':'Contact','nav.book':'Book now',
-  'hero.eyebrow':'Beauty specialist',
+  'hero.eyebrow':"Beauty specialist · Marrakech",
   'hero.title':'Your natural beauty, <em>gently</em> enhanced.',
-  'hero.lead':'Personal treatments in a calm, welcoming space — from glowing skin to perfectly shaped brows. Take a moment just for you.',
+  'hero.lead':"Personal treatments in the calm and privacy of Hiba's home in Marrakech — from glowing skin to perfectly shaped brows. Take a moment just for you.",
   'hero.cta1':'Book an appointment','hero.cta2':'View treatments',
-  'hero.photo':'[ photo of Hiba<br>or the salon ]','hero.years':'[X]+ years','hero.exp':'of experience',
+  'hero.photo':"[ photo of Hiba<br>or her treatment room ]",'hero.years':'[X]+ years','hero.exp':'of experience',
   'about.photo':'[ portrait photo ]','about.eyebrow':'Meet Hiba','about.title':'Care that starts with listening',
   'about.p1':"[Placeholder] Hi, I'm Hiba. I believe every treatment should feel like a small escape. I take the time to understand your skin and your wishes, so the result feels like you — only more radiant.",
   'about.p2':'[Placeholder — add her training, certifications, the products/brands she works with, and what makes her approach special.]',
   'v1.t':'Personal','v1.p':'Advice tailored to your skin and style.',
   'v2.t':'Hygienic','v2.p':'Clean, sterilised tools, every time.',
-  'v3.t':'Relaxing','v3.p':'A peaceful space to unwind.',
+  'v3.t':'Relaxing','v3.p':"A private, homely space to unwind.",
   'svc.eyebrow':'Treatments & prices','svc.title':'Treatments','svc.intro':"[Placeholder treatments and prices — to be replaced with Hiba's real menu.]",
   'tab.face':'Facials','tab.brows':'Brows & lashes','tab.wax':'Waxing','tab.nails':'Nails','tab.makeup':'Make-up','tab.unsure':'Not sure yet',
   'face1.n':'Signature facial','face1.d':'Cleanse, peel, extraction, mask and massage',
@@ -370,27 +380,27 @@ en:{
   'svc.note':'Gift vouchers available — ask Hiba. [Placeholder]',
   'gal.eyebrow':'Gallery','gal.title':'A glimpse of the work','gal.photo':'[ photo ]',
   'book.eyebrow':'Visit & contact','book.title':'Book your moment',
-  'book.lead':'Send a request with the form, or reach out directly. Hiba will confirm your appointment as soon as possible.',
-  'book.address':'Address','book.phone':'Phone / WhatsApp','book.email':'Email','book.hours':'Opening hours',
-  'ph.address':'[Street + number, postcode, city]','ph.email':'[email address]','ph.vat':'[VAT number]',
+  'book.lead':"Send a request with the form or on WhatsApp. Hiba welcomes clients in her home in Marrakech and shares the exact address when she confirms your appointment.",
+  'book.address':"Location",'book.phone':'Phone / WhatsApp','book.email':'Email','book.hours':'Opening hours',
+  'ph.address':"[Neighbourhood], Marrakech — at Hiba's home",'ph.email':'[email address]','ph.vat':'[VAT number]',
   'day.mon':'Mon','day.tuefri':'Tue – Fri','day.sat':'Sat','day.sun':'Sun','closed':'[closed]',
   'form.title':'Appointment request','form.name':'Name','form.phone':'Phone','form.email':'Email','form.treatment':'Treatment',
   'form.date':'Preferred date','form.message':'Message','form.msgph':'Anything Hiba should know?','form.submit':'Send request',
-  'sent.title':'Your request is ready. Copy it and send it to Hiba by email or WhatsApp.','sent.copy':'Copy text','sent.mail':'Open in email','sent.copied':'Copied'
+  'sent.title':"Your request is ready. Send it to Hiba on WhatsApp, or copy it.",'sent.wa':"Send on WhatsApp",'sent.copy':'Copy text','sent.mail':'Open in email','sent.copied':'Copied'
 },
 fr:{
   'nav.about':'À propos','nav.services':'Soins','nav.gallery':'Galerie','nav.contact':'Contact','nav.book':'Réserver',
-  'hero.eyebrow':'Spécialiste beauté',
+  'hero.eyebrow':"Spécialiste beauté · Marrakech",
   'hero.title':'Votre beauté naturelle, <em>délicatement</em> sublimée.',
-  'hero.lead':"Des soins personnalisés dans un cadre calme et chaleureux — d'une peau éclatante à des sourcils parfaitement dessinés. Offrez-vous un moment rien qu'à vous.",
+  'hero.lead':"Des soins personnalisés dans le calme et l'intimité de chez Hiba, à Marrakech — d'une peau éclatante à des sourcils parfaitement dessinés. Offrez-vous un moment rien qu'à vous.",
   'hero.cta1':'Prendre rendez-vous','hero.cta2':'Voir les soins',
-  'hero.photo':'[ photo de Hiba<br>ou du salon ]','hero.years':'[X]+ ans','hero.exp':"d'expérience",
+  'hero.photo':"[ photo de Hiba<br>ou de son espace de soins ]",'hero.years':'[X]+ ans','hero.exp':"d'expérience",
   'about.photo':'[ photo portrait ]','about.eyebrow':'Rencontrez Hiba','about.title':"Un soin qui commence par l'écoute",
   'about.p1':"[À compléter] Bonjour, je suis Hiba. Pour moi, chaque soin doit être une petite évasion. Je prends le temps de comprendre votre peau et vos envies, pour un résultat qui vous ressemble — en plus rayonnant.",
   'about.p2':'[À compléter — formations, certifications, produits/marques utilisés et ce qui rend son approche unique.]',
   'v1.t':'Personnalisé','v1.p':'Des conseils adaptés à votre peau et à votre style.',
   'v2.t':'Hygiénique','v2.p':'Des outils propres et stérilisés, à chaque fois.',
-  'v3.t':'Relaxant','v3.p':'Un espace paisible pour vous détendre.',
+  'v3.t':'Relaxant','v3.p':"Un espace intime et chaleureux pour vous détendre.",
   'svc.eyebrow':'Soins & tarifs','svc.title':'Les soins','svc.intro':'[Soins et tarifs provisoires — à remplacer par la vraie carte de Hiba.]',
   'tab.face':'Visage','tab.brows':'Sourcils & cils','tab.wax':'Épilation','tab.nails':'Ongles','tab.makeup':'Maquillage','tab.unsure':'Je ne sais pas encore',
   'face1.n':'Soin signature','face1.d':'Nettoyage, peeling, extraction, masque et massage',
@@ -411,27 +421,27 @@ fr:{
   'svc.note':'Bons cadeaux disponibles — demandez à Hiba. [À compléter]',
   'gal.eyebrow':'Galerie','gal.title':'Un aperçu de son travail','gal.photo':'[ photo ]',
   'book.eyebrow':'Visite & contact','book.title':'Réservez votre moment',
-  'book.lead':'Envoyez une demande via le formulaire ou contactez-la directement. Hiba confirmera votre rendez-vous dès que possible.',
-  'book.address':'Adresse','book.phone':'Téléphone / WhatsApp','book.email':'E-mail','book.hours':"Heures d'ouverture",
-  'ph.address':'[Rue + numéro, code postal, ville]','ph.email':'[adresse e-mail]','ph.vat':'[numéro de TVA]',
+  'book.lead':"Envoyez une demande via le formulaire ou sur WhatsApp. Hiba reçoit chez elle, à Marrakech, et vous communique l'adresse exacte en confirmant votre rendez-vous.",
+  'book.address':"Lieu",'book.phone':'Téléphone / WhatsApp','book.email':'E-mail','book.hours':"Heures d'ouverture",
+  'ph.address':"[Quartier], Marrakech — chez Hiba",'ph.email':'[adresse e-mail]','ph.vat':'[numéro de TVA]',
   'day.mon':'Lun','day.tuefri':'Mar – Ven','day.sat':'Sam','day.sun':'Dim','closed':'[fermé]',
   'form.title':'Demande de rendez-vous','form.name':'Nom','form.phone':'Téléphone','form.email':'E-mail','form.treatment':'Soin',
   'form.date':'Date souhaitée','form.message':'Message','form.msgph':'Quelque chose que Hiba devrait savoir ?','form.submit':'Envoyer la demande',
-  'sent.title':'Votre demande est prête. Copiez-la et envoyez-la à Hiba par e-mail ou WhatsApp.','sent.copy':'Copier le texte','sent.mail':'Ouvrir la messagerie','sent.copied':'Copié'
+  'sent.title':"Votre demande est prête. Envoyez-la à Hiba sur WhatsApp, ou copiez-la.",'sent.wa':"Envoyer sur WhatsApp",'sent.copy':'Copier le texte','sent.mail':'Ouvrir la messagerie','sent.copied':'Copié'
 },
 ar:{
   'nav.about':'عن هبة','nav.services':'الخدمات','nav.gallery':'المعرض','nav.contact':'اتصلي بنا','nav.book':'احجزي الآن',
-  'hero.eyebrow':'أخصائية تجميل',
+  'hero.eyebrow':"أخصائية تجميل · مراكش",
   'hero.title':'جمالكِ الطبيعي، <em>بلمسة رقيقة</em>.',
-  'hero.lead':'علاجات شخصية في مكان هادئ ودافئ — من بشرة مشرقة إلى حواجب مرسومة بإتقان. خصّصي لنفسك لحظة لكِ وحدكِ.',
+  'hero.lead':"علاجات شخصية في هدوء وخصوصية بيت هبة في مراكش — من بشرة مشرقة إلى حواجب مرسومة بإتقان. خصّصي لنفسك لحظة لكِ وحدكِ.",
   'hero.cta1':'احجزي موعدًا','hero.cta2':'اكتشفي الخدمات',
-  'hero.photo':'[ صورة هبة<br>أو الصالون ]','hero.years':'+[X] سنوات','hero.exp':'من الخبرة',
+  'hero.photo':"[ صورة هبة<br>أو غرفة العناية ]",'hero.years':'+[X] سنوات','hero.exp':'من الخبرة',
   'about.photo':'[ صورة شخصية ]','about.eyebrow':'تعرّفي على هبة','about.title':'عناية تبدأ بالإصغاء',
   'about.p1':'[نص مؤقت] مرحبًا، أنا هبة. أؤمن بأن كل جلسة يجب أن تكون استراحة صغيرة. آخذ وقتي لفهم بشرتكِ ورغباتكِ، لتكون النتيجة أنتِ — ولكن أكثر إشراقًا.',
   'about.p2':'[نص مؤقت — أضيفي التكوين والشهادات والمنتجات والعلامات المستعملة وما يميّز أسلوبها.]',
   'v1.t':'عناية شخصية','v1.p':'نصائح تناسب بشرتكِ وأسلوبكِ.',
   'v2.t':'نظافة','v2.p':'أدوات نظيفة ومعقّمة في كل مرة.',
-  'v3.t':'استرخاء','v3.p':'مكان هادئ لتسترخي فيه.',
+  'v3.t':'استرخاء','v3.p':"مكان خاص ودافئ لتسترخي فيه.",
   'svc.eyebrow':'الخدمات والأسعار','svc.title':'الخدمات','svc.intro':'[خدمات وأسعار مؤقتة — تُستبدل بقائمة هبة الحقيقية.]',
   'tab.face':'العناية بالوجه','tab.brows':'الحواجب والرموش','tab.wax':'إزالة الشعر','tab.nails':'الأظافر','tab.makeup':'المكياج','tab.unsure':'لست متأكدة بعد',
   'face1.n':'العناية المميّزة بالوجه','face1.d':'تنظيف، تقشير، تنقية المسام، قناع وتدليك',
@@ -452,27 +462,27 @@ ar:{
   'svc.note':'بطاقات الهدايا متوفرة — اسألي هبة. [نص مؤقت]',
   'gal.eyebrow':'المعرض','gal.title':'لمحة عن أعمالها','gal.photo':'[ صورة ]',
   'book.eyebrow':'الزيارة والتواصل','book.title':'احجزي لحظتكِ',
-  'book.lead':'أرسلي طلبًا عبر الاستمارة أو تواصلي معها مباشرة. ستؤكد هبة موعدكِ في أقرب وقت ممكن.',
-  'book.address':'العنوان','book.phone':'الهاتف / واتساب','book.email':'البريد الإلكتروني','book.hours':'أوقات العمل',
-  'ph.address':'[الشارع والرقم، الرمز البريدي، المدينة]','ph.email':'[البريد الإلكتروني]','ph.vat':'[رقم الضريبة]',
+  'book.lead':"أرسلي طلبًا عبر الاستمارة أو على واتساب. تستقبل هبة زبوناتها في بيتها بمراكش، وترسل لكِ العنوان الدقيق عند تأكيد موعدكِ.",
+  'book.address':"المكان",'book.phone':'الهاتف / واتساب','book.email':'البريد الإلكتروني','book.hours':'أوقات العمل',
+  'ph.address':"[الحي]، مراكش — في بيت هبة",'ph.email':'[البريد الإلكتروني]','ph.vat':'[رقم الضريبة]',
   'day.mon':'الإثنين','day.tuefri':'الثلاثاء – الجمعة','day.sat':'السبت','day.sun':'الأحد','closed':'[مغلق]',
   'form.title':'طلب موعد','form.name':'الاسم','form.phone':'الهاتف','form.email':'البريد الإلكتروني','form.treatment':'الخدمة',
   'form.date':'التاريخ المفضّل','form.message':'رسالة','form.msgph':'هل هناك ما يجب أن تعرفه هبة؟','form.submit':'إرسال الطلب',
-  'sent.title':'طلبكِ جاهز. انسخيه وأرسليه إلى هبة عبر البريد الإلكتروني أو واتساب.','sent.copy':'نسخ النص','sent.mail':'فتح البريد الإلكتروني','sent.copied':'تم النسخ'
+  'sent.title':"طلبكِ جاهز. أرسليه إلى هبة عبر واتساب أو انسخيه.",'sent.wa':"إرسال عبر واتساب",'sent.copy':'نسخ النص','sent.mail':'فتح البريد الإلكتروني','sent.copied':'تم النسخ'
 },
 ary:{
   'nav.about':'على هبة','nav.services':'الخدمات','nav.gallery':'التصاور','nav.contact':'تواصلي','nav.book':'حجزي دابا',
-  'hero.eyebrow':'خبيرة فالتجميل',
+  'hero.eyebrow':"خبيرة فالتجميل · مراكش",
   'hero.title':'الزين ديالك الطبيعي، <em>بلمسة رقيقة</em>.',
-  'hero.lead':'خدمات على حسابك فبلاصة هادية ومريحة — من بشرة كتشعل لحواجب مرسومين مزيان. خدي شوية ديال الوقت غير ليك.',
+  'hero.lead':"خدمات على حسابك فالهدوء والخصوصية ديال الدار ديال هبة فمراكش — من بشرة كتشعل لحواجب مرسومين مزيان. خدي شوية ديال الوقت غير ليك.",
   'hero.cta1':'خدي موعد','hero.cta2':'شوفي الخدمات',
-  'hero.photo':'[ تصويرة ديال هبة<br>ولا ديال الصالون ]','hero.years':'+[X] سنين','hero.exp':'ديال الخبرة',
+  'hero.photo':"[ تصويرة ديال هبة<br>ولا ديال البيت فين كتخدم ]",'hero.years':'+[X] سنين','hero.exp':'ديال الخبرة',
   'about.photo':'[ تصويرة شخصية ]','about.eyebrow':'تعرفي على هبة','about.title':'العناية كتبدا بالسماع',
   'about.p1':'[نص مؤقت] السلام، أنا هبة. كنآمن بلي كل جلسة خاصها تكون بحال شي راحة صغيرة. كناخد الوقت ديالي باش نفهم البشرة ديالك وشنو بغيتي، باش النتيجة تكون بحالك — ولكن كتشعلي كثر.',
   'about.p2':'[نص مؤقت — زيدي التكوين، الشواهد، الماركات اللي كتخدم بيهم، وشنو اللي كيميز الطريقة ديالها.]',
   'v1.t':'على حسابك','v1.p':'نصائح كتناسب البشرة والستيل ديالك.',
   'v2.t':'النقا','v2.p':'أدوات نقيين ومعقمين، ديما.',
-  'v3.t':'الراحة','v3.p':'بلاصة هادية باش ترتاحي.',
+  'v3.t':'الراحة','v3.p':"بلاصة خاصة ودافية باش ترتاحي.",
   'svc.eyebrow':'الخدمات والأثمنة','svc.title':'الخدمات','svc.intro':'[خدمات وأثمنة مؤقتة — غادي يتبدلو بالليستة الحقيقية ديال هبة.]',
   'tab.face':'الوجه','tab.brows':'الحواجب والشفار','tab.wax':'إزالة الشعر','tab.nails':'الضفار','tab.makeup':'الماكياج','tab.unsure':'مازال ما عرفتش',
   'face1.n':'العناية الخاصة بالوجه','face1.d':'تنقية، تقشير، تنظيف المسام، ماسك ومساج',
@@ -493,13 +503,13 @@ ary:{
   'svc.note':'كاينين بونات ديال الهدايا — سولي هبة. [نص مؤقت]',
   'gal.eyebrow':'التصاور','gal.title':'شوفي شوية من الخدمة ديالها','gal.photo':'[ تصويرة ]',
   'book.eyebrow':'الزيارة والتواصل','book.title':'حجزي الوقت ديالك',
-  'book.lead':'صيفطي طلب من الفورمولير ولا تواصلي معاها نيشان. هبة غادي تأكد ليك الموعد فأقرب وقت.',
-  'book.address':'العنوان','book.phone':'التيليفون / واتساب','book.email':'الإيميل','book.hours':'أوقات الخدمة',
-  'ph.address':'[الزنقة والرقم، الكود البريدي، المدينة]','ph.email':'[الإيميل]','ph.vat':'[رقم الضريبة]',
+  'book.lead':"صيفطي طلب من الفورمولير ولا فالواتساب. هبة كتستقبل فالدار ديالها فمراكش، وكتصيفط ليك العنوان بالضبط ملي كتأكد ليك الموعد.",
+  'book.address':"البلاصة",'book.phone':'التيليفون / واتساب','book.email':'الإيميل','book.hours':'أوقات الخدمة',
+  'ph.address':"[الحومة]، مراكش — فدار هبة",'ph.email':'[الإيميل]','ph.vat':'[رقم الضريبة]',
   'day.mon':'الإثنين','day.tuefri':'الثلاثاء – الجمعة','day.sat':'السبت','day.sun':'الحد','closed':'[مسدود]',
   'form.title':'طلب موعد','form.name':'السمية','form.phone':'التيليفون','form.email':'الإيميل','form.treatment':'الخدمة',
   'form.date':'النهار اللي بغيتي','form.message':'ميساج','form.msgph':'واش كاين شي حاجة خاص هبة تعرفها؟','form.submit':'صيفطي الطلب',
-  'sent.title':'الطلب ديالك واجد. كوبيه وصيفطيه لهبة فالإيميل ولا فالواتساب.','sent.copy':'كوبي النص','sent.mail':'حلي الإيميل','sent.copied':'تكوبا'
+  'sent.title':"الطلب ديالك واجد. صيفطيه لهبة فالواتساب ولا كوبيه.",'sent.wa':"صيفطي فالواتساب",'sent.copy':'كوبي النص','sent.mail':'حلي الإيميل','sent.copied':'تكوبا'
 }};
 const RTL = ['ar','ary'];
 
@@ -571,6 +581,7 @@ document.getElementById('bookForm').addEventListener('submit', e => {
     `${t('form.treatment')}: ${f.get('treatment')}`, `${t('form.date')}: ${f.get('date')}`, '', f.get('message')
   ].join('\n');
   document.getElementById('sentText').textContent = body;
+  document.getElementById('waBtn').href = `https://wa.me/${HIBA_WHATSAPP}?text=${encodeURIComponent(t('form.title')+'\n\n'+body)}`;
   document.getElementById('mailBtn').href = `mailto:${HIBA_EMAIL}?subject=${encodeURIComponent(t('form.title')+' – '+f.get('treatment'))}&body=${encodeURIComponent(body)}`;
   const box = document.getElementById('sent'); box.hidden = false; box.scrollIntoView({behavior:'smooth', block:'nearest'});
 });
@@ -579,6 +590,7 @@ document.getElementById('copyBtn').addEventListener('click', ev => {
   navigator.clipboard.writeText(txt.textContent).then(() => { btn.textContent = t('sent.copied'); setTimeout(() => btn.textContent = t('sent.copy'), 2000); })
     .catch(() => { const r = document.createRange(); r.selectNodeContents(txt); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
 });
+document.getElementById('waFloat').href = `https://wa.me/${HIBA_WHATSAPP}`;
 document.getElementById('yr').textContent = new Date().getFullYear();
 </script>
 </body>
